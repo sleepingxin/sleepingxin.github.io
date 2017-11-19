@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ozewo5ves.bkt.clouddn.com/picture1.bmp">
 <meta property="og:image" content="http://ozewo5ves.bkt.clouddn.com/cpp_problem_ptcture2.bmp">
-<meta property="og:updated_time" content="2017-11-14T14:54:13.736Z">
+<meta property="og:updated_time" content="2017-11-14T14:56:27.354Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学习c++的一系列问题">
 <meta name="twitter:description" content="问题1：char字符居然占了4个字节，而sizeof(char)是112345678910111213141516171819202122232425#include&amp;lt;iostream&amp;gt;int main()&amp;#123;    struct Student    &amp;#123;        int num;        char name[20];        char sex;">
@@ -350,7 +350,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  460
+                  457
                 </span>
               
 
@@ -392,7 +392,8 @@
 <p><img src="http://ozewo5ves.bkt.clouddn.com/picture1.bmp" alt="上述程序结果图"></p>
 <p>可见，sex的首地址与age的首地址相差4个字节</p>
 <h4 id="解释："><a href="#解释：" class="headerlink" title="解释："></a>解释：</h4><p>char类型比较特殊，char右边的字符是按转成ascii存储的，实际占4个字节，当赋值给char类型的变量，会把高位的3个字节舍弃，压入到char类型中。</p>
-<h2 id="问题2：为什么直接输出char类型变量的地址为乱码"><a href="#问题2：为什么直接输出char类型变量的地址为乱码" class="headerlink" title="问题2：为什么直接输出char类型变量的地址为乱码"></a>问题2：为什么直接输出char类型变量的地址为乱码</h2><p>代码同上，直接用 <figure class="highlight plain"><figcaption><span>输出为’F‘，这算比较好的情况了，一般是输出乱码。而把这个地址赋值给void指针，才能正常输出。赋值给char指针同样输出乱码。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#### 解释：</span><br><span class="line">《运算符重载的时候，当参数是 char * 时 ，cout就输出字符串，</span><br><span class="line">比如：</span><br><span class="line">``` cpp</span><br><span class="line">char * p =&quot;aaaa&quot;;</span><br><span class="line">cout&lt;&lt;p&lt;&lt;endl;</span><br></pre></td></tr></table></figure></p>
+<h2 id="问题2：为什么直接输出char类型变量的地址为乱码"><a href="#问题2：为什么直接输出char类型变量的地址为乱码" class="headerlink" title="问题2：为什么直接输出char类型变量的地址为乱码"></a>问题2：为什么直接输出char类型变量的地址为乱码</h2><p>代码同上，直接用 &amp;student1.sex 输出为’F‘，这算比较好的情况了，一般是输出乱码。而把这个地址赋值给void指针，才能正常输出。赋值给char指针同样输出乱码。</p>
+<h4 id="解释：-1"><a href="#解释：-1" class="headerlink" title="解释："></a>解释：</h4><p>《运算符重载的时候，当参数是 char * 时 ，cout就输出字符串，<br>比如：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> * p =<span class="string">"aaaa"</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;p&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure></p>
 <p>p存放的是字符串“aaaa”的首地址，cout从首地址指向的字符依次输出，碰到’、0‘停止输出<br>输出是“aaaa”<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> a = <span class="string">'F'</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;&amp;a&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>&amp;a 的类型就是char * 了,&amp;a存放了a的地址，cout从首地址按字符依次输出，遇到’、0‘停止。实际上，从&amp;a往后的内存空间中，我们并不知道什么时候会遇到’\0‘,所以这个乱码有长有短，飘忽不定。</p>
 <p><img src="http://ozewo5ves.bkt.clouddn.com/cpp_problem_ptcture2.bmp" alt="图片2.bmp"></p>
@@ -599,7 +600,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题1：char字符居然占了4个字节，而sizeof-char-是1"><span class="nav-number">1.</span> <span class="nav-text">问题1：char字符居然占了4个字节，而sizeof(char)是1</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#解释："><span class="nav-number">1.0.1.</span> <span class="nav-text">解释：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题2：为什么直接输出char类型变量的地址为乱码"><span class="nav-number">2.</span> <span class="nav-text">问题2：为什么直接输出char类型变量的地址为乱码</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题1：char字符居然占了4个字节，而sizeof-char-是1"><span class="nav-number">1.</span> <span class="nav-text">问题1：char字符居然占了4个字节，而sizeof(char)是1</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#解释："><span class="nav-number">1.0.1.</span> <span class="nav-text">解释：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题2：为什么直接输出char类型变量的地址为乱码"><span class="nav-number">2.</span> <span class="nav-text">问题2：为什么直接输出char类型变量的地址为乱码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#解释：-1"><span class="nav-number">2.0.1.</span> <span class="nav-text">解释：</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -645,7 +646,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共540字</span>
+  <span class="post-count">博客全站共537字</span>
 </div>
         
 
